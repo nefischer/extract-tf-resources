@@ -7,14 +7,14 @@ import sys
 
 def extract_matching_blocks(content, keyword):
     # Simplified pattern to match both resource and data blocks
-    block_pattern = r'(?:^|\n)((data|resource)\s+"[^"]+"\s+"[^"]+"\s+\{.*?\n\})'
+    block_pattern = r'(?:^|\n)((data|resource|module|variable|provider)\s+"[^"]+"(\s+"[^"]+")?\s*\{.*?\n\})'
     extracted_blocks = []
 
     matches = re.findall(block_pattern, content, re.DOTALL | re.MULTILINE)
     for match in matches:
         # Extracting the full block, which is the first element of the tuple
         block = match[0]
-        if keyword in block:
+        if str.upper(keyword) in str.upper(block):
             extracted_blocks.append(block)
 
     return extracted_blocks
