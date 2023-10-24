@@ -4,6 +4,10 @@ import os
 import re
 import sys
 
+def is_substring_in_string(substring, string):
+    pattern = r'(?<![a-zA-Z0-9])' + re.escape(str.upper(substring)) + r'(?![a-zA-Z0-9])'
+    match = re.search(pattern, str.upper(string))
+    return match is not None
 
 def extract_matching_blocks(content, keyword):
     # Simplified pattern to match both resource and data blocks
@@ -14,7 +18,7 @@ def extract_matching_blocks(content, keyword):
     for match in matches:
         # Extracting the full block, which is the first element of the tuple
         block = match[0]
-        if str.upper(keyword) in str.upper(block):
+        if is_substring_in_string(keyword, block):
             extracted_blocks.append(block)
 
     return extracted_blocks
